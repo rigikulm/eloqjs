@@ -1,0 +1,23 @@
+{
+  "name": "eloqjs",
+  "version": "0.0.1",
+  "description": "Exercises from Eloquent Javascript 3rd Edition",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "javascript",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.1.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

@@ -9,7 +9,24 @@
 // numbers that are divisible by both 3 and 5 (and still print "Fizz" or
 // "Buzz" for numbers divisible by only one of those).
 
+// More Efficient Implementation
 function fizzbuzz(from, to) {
+    for (let i = from; i <= to; i++) {
+        let output = "";
+        if (i % 3 === 0) output += "Fizz";
+        if (i % 5 === 0) output += "Buzz";
+        
+        if (output.length > 0) {
+            console.log(output);
+        } else {
+            console.log(i);
+        }
+    }
+}
+
+
+// My original Implementation
+function fizzbuzz1(from, to) {
     for (let i = from; i <= to; i++) {
         let isModThree = (i % 3) === 0;
         let isModFive = (i % 5) === 0;

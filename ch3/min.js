@@ -10,6 +10,4 @@ function minimum(a, b) {
     }
 }
 
-console.log(`minimum(3,7) = ${minimum(3,7)}`);
-console.log(`minimum(3,-7) = ${minimum(3,-7)}`);
-console.log(`minimum(-3,-7) = ${minimum(-3,-7)}`);
+module.exports = minimum;

@@ -21,11 +21,4 @@ function isEven(n) {
     }
 }
 
-console.log(`isEven(2) = ${isEven(2)}`);
-console.log(`isEven(1) = ${isEven(1)}`);
-console.log(`isEven(0) = ${isEven(0)}`);
-console.log(`isEven(77) = ${isEven(77)}`);
-console.log(`isEven(52) = ${isEven(52)}`);
-console.log(`isEven(-2) = ${isEven(-2)}`);
-console.log(`isEven(-21) = ${isEven(-21)}`);
-console.log(`isEven(-64) = ${isEven(-64)}`);
+module.exports = isEven;

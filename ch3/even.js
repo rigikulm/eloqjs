@@ -7,19 +7,18 @@
 // Define a recursive function isEven corresponding to this description
 
 function isEven(n) {
-    let result;
-
-    switch (n) {
-        case 0:
-            result = true;
-            break;
-        case 1:
-            result = false;
-            break;
-        default:
-            result = isEven(n - 2);
+    if (n === 0) {
+        return true;
     }
-    return result;
+    else if (n === 1) {
+        return false;
+    }
+    else if ( n < 0) {  // bug fix to handle negative numbers
+        return isEven(-n);
+    }
+    else {
+        return isEven(n -2);
+    }
 }
 
 console.log(`isEven(2) = ${isEven(2)}`);
@@ -28,3 +27,5 @@ console.log(`isEven(0) = ${isEven(0)}`);
 console.log(`isEven(77) = ${isEven(77)}`);
 console.log(`isEven(52) = ${isEven(52)}`);
 console.log(`isEven(-2) = ${isEven(-2)}`);
+console.log(`isEven(-21) = ${isEven(-21)}`);
+console.log(`isEven(-64) = ${isEven(-64)}`);

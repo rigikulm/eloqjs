@@ -63,6 +63,7 @@ class VillageState {
         // If there is no path to destinaation from the
         // current location just return
         if (!roadGraph[this.place].includes(destination)) {
+            console.log(`WARNING: No path from ${this.place} to ${destination}`);
             return this;
         }
 
@@ -101,10 +102,6 @@ function randomPick(array) {
     return array[choice];
 }
 
-function randomRobot(state) {
-    return {direction: randomPick(roadGraph[state.place])};
-}
-
 // A static method (written here by directly adding a property to the constructor)
 // to create a new 'state' with some parcels
 VillageState.random = function(parcelCount = 5) {
@@ -120,14 +117,52 @@ VillageState.random = function(parcelCount = 5) {
     return new VillageState("Post", parcels);
 }
 
+// An easy improvement is to take a hint from the way real-world mail
+// delivery works. If we find a route that passes all places in the village,
+// the robot could run that route twice, at which point it is guaranteed to
+// be done.
+const mailRoute = [
+    "Alice",
+    "Cabin",
+    "Alice",
+    "Bob",
+    "Townhall",
+    "Daria",
+    "Ernie",
+    "Grete",
+    "Shop",
+    "Grete",
+    "Farm",
+    "Marketplace",
+    "Post"
+];
 
 
-dump(roads);
+///////////////////////////////////////////////////////
+// ROBOT APPROACHES
+///////////////////////////////////////////////////////
+
+function randomRobot(state) {
+    return {direction: randomPick(roadGraph[state.place])};
+}
+
+
+// To implement the route-following robot, we’ll need to make use of robot
+// memory. The robot keeps the rest of its route in its memory and drops the
+// first element every turn.
+function routeRobot(state, memory) {
+    if (memory.length == 0) {
+        memory = mailRoute;
+    }
+    return {direction: memory[0], memory: memory.slice(1)};
+}
+
 dump(roadGraph);
 
-let first = new VillageState("Post", [{place: "Post", address:"Alice"}]);
-dump(first);
-let next = first.move("Alice");
-dump(next);
+//let first = new VillageState("Post", [{place: "Post", address:"Alice"}]);
+//dump(first);
+//let next = first.move("Alice");
+//dump(next);
 
-runRobot(VillageState.random(10), randomRobot);
+runRobot(VillageState.random(), randomRobot);
+runRobot(VillageState.random(20), routeRobot, []);

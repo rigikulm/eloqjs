@@ -48,6 +48,8 @@ function buildGraph(edges) {
     return graph;
 }
 
+const roadGraph = buildGraph(roads);
+
 // A parcel has a current 'place' and a target 'address'
 // {place: "Alices", address: "Bobs"}
 //
@@ -64,7 +66,9 @@ class VillageState {
             return this;
         }
 
-        // 1) Update parcels to reflect their new current location of 'destination'
+        // 1) Update parcels to reflect their new current location of 'destination'.
+        //     If a parcels 'place' was its old location (this.place) update it
+        //     to 'destination' but keep the associated target 'address'.
         // 2) Then filter any parcels that are intended for the 'destination'
         let parcels = this.parcels.map(p => {
             if (p.place != this.place) {
@@ -78,7 +82,46 @@ class VillageState {
     }
 }
 
-const roadGraph = buildGraph(roads);
+function runRobot(state, robot, memory) {
+    for (let turn = 0;; turn++) {
+        if (state.parcels.length == 0) {
+            console.log(`Done in ${turn} turns`);
+            break;
+        }
+
+        let action = robot(state, memory);
+        state = state.move(action.direction);
+        memory = action.memory;
+        console.log(`Moved to ${action.direction}`);
+    } 
+}
+
+function randomPick(array) {
+    let choice = Math.floor(Math.random() * array.length);
+    return array[choice];
+}
+
+function randomRobot(state) {
+    return {direction: randomPick(roadGraph[state.place])};
+}
+
+// A static method (written here by directly adding a property to the constructor)
+// to create a new 'state' with some parcels
+VillageState.random = function(parcelCount = 5) {
+    let parcels = [];
+    for (let i = 0; i < parcelCount; i++) {
+        let address = randomPick(Object.keys(roadGraph));
+        let place;
+        do {
+            place = randomPick(Object.keys(roadGraph));
+        } while (place == address);
+        parcels.push({place, address});
+    }
+    return new VillageState("Post", parcels);
+}
+
+
+
 dump(roads);
 dump(roadGraph);
 
@@ -86,3 +129,5 @@ let first = new VillageState("Post", [{place: "Post", address:"Alice"}]);
 dump(first);
 let next = first.move("Alice");
 dump(next);
+
+runRobot(VillageState.random(10), randomRobot);
